@@ -1,8 +1,9 @@
 # Hangfire.Console.Extensions
+[![NuGet version](https://badge.fury.io/nu/Hangfire.Console.Extensions.svg)](https://badge.fury.io/nu/Hangfire.Console.Extensions)
 
 ## Features
 
- - Makes it easier to use `Hangfire.Console` with dependancy injection
+ - Makes it easier to use `Hangfire.Console` with .net core dependency injection
 
 ## Setup
 
