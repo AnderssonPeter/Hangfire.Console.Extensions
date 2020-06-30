@@ -1,26 +1,27 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Hangfire.Console.Extensions;
-using Hangfire.Server;
 using Microsoft.Extensions.Logging;
 
-namespace Sample
+namespace SampleWithSerilog
 {
-    public class ContinuationJob
+    public class SampleJob
     {
         private readonly ILogger<SampleJob> logger;
         private readonly IProgressBarFactory progressBarFactory;
-        private readonly PerformingContext performingContext;
+        private readonly IJobManager jobManager;
 
-        public ContinuationJob(ILogger<SampleJob> logger, IProgressBarFactory progressBarFactory, PerformingContext performingContext)
+        public SampleJob(ILogger<SampleJob> logger, IProgressBarFactory progressBarFactory, IJobManager jobManager)
         {
             this.logger = logger;
             this.progressBarFactory = progressBarFactory;
-            this.performingContext = performingContext;
+            this.jobManager = jobManager;
         }
 
         public async Task RunAsync()
         {
-            logger.LogInformation("JobId: {JobId}", performingContext.BackgroundJob.Id);
             logger.LogTrace("Test");
             logger.LogDebug("Test");
             logger.LogInformation("Test");
@@ -34,6 +35,9 @@ namespace Sample
                 progress.SetValue(i + 1);
                 await Task.Delay(100);
             }
+
+            //Starting a job inside a job will mark it as a Continuation
+            jobManager.Start<ContinuationJob>(x => x.RunAsync());
         }
     }
 }

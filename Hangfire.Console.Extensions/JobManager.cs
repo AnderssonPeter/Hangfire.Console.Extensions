@@ -2,6 +2,7 @@
 using Hangfire.Annotations;
 using Hangfire.States;
 using Hangfire.Storage;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,13 +19,14 @@ namespace Hangfire.Console.Extensions
     {
         private readonly IMonitoringApi monitoringApi;
         private readonly IPerformingContextAccessor performingContextAccessor;
-
+        private readonly ILogger<JobManager> logger;
         private readonly IBackgroundJobClient backgroundJobClient;
 
-        public JobManager(JobStorage jobStorage, IBackgroundJobClient backgroundJobClient, IPerformingContextAccessor performingContextAccessor)
+        public JobManager(JobStorage jobStorage, IBackgroundJobClient backgroundJobClient, IPerformingContextAccessor performingContextAccessor, ILogger<JobManager> logger)
         {
             this.monitoringApi = jobStorage.GetMonitoringApi();
             this.performingContextAccessor = performingContextAccessor;
+            this.logger = logger;
             this.backgroundJobClient = backgroundJobClient;
         }
 

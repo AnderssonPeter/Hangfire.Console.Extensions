@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Hangfire;
 using Hangfire.Console;
 using Hangfire.Console.Extensions;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Sample
+namespace SampleWithSerilog
 {
     public class Startup
     {

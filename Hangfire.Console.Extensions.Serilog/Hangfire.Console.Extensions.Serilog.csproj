@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company />
+    <Authors>Peter Andersson</Authors>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>Makes it easier to use Hangfire.Console with serilog</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions.Serilog</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions.Serilog</RepositoryUrl>
+    <RepositoryType>github</RepositoryType>
+    <PackageTags>Hangfire Hangfire.Console Serilog</PackageTags>
+    <Version>1.0.0</Version>
+    <PackageReleaseNotes>
+      1.0.0
+      * Initial version
+    </PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hangfire.Console" Version="1.4.2" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hangfire.Console.Extensions\Hangfire.Console.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

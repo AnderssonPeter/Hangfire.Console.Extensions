@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Hangfire.Console.Extensions;
 using Hangfire.Server;
 using Microsoft.Extensions.Logging;
 
-namespace Sample
+namespace SampleWithSerilog
 {
     public class ContinuationJob
     {
