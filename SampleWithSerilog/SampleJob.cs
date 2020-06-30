@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using Hangfire.Console.Extensions;
 using Microsoft.Extensions.Logging;
 

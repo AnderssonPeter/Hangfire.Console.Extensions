@@ -35,7 +35,7 @@ namespace SampleWithSerilog
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IJobManager jobManager)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IJobManager jobManager, IRecurringJobManager recurringJobManager)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +55,7 @@ namespace SampleWithSerilog
             });
 
             jobManager.Start<SampleJob>(x => x.RunAsync());
+            recurringJobManager.AddOrUpdate<ContinuationJob>("test", job => job.RunAsync(), "0 0 * ? * *");
         }
     }
 }

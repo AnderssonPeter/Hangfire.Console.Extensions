@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Hangfire;
 using Hangfire.Console.Extensions;
 using Hangfire.Server;
 using Microsoft.Extensions.Logging;
@@ -7,15 +8,17 @@ namespace Sample
 {
     public class ContinuationJob
     {
-        private readonly ILogger<SampleJob> logger;
+        private readonly ILogger<ContinuationJob> logger;
         private readonly IProgressBarFactory progressBarFactory;
         private readonly PerformingContext performingContext;
+        private readonly IJobCancellationToken jobCancellationToken;
 
-        public ContinuationJob(ILogger<SampleJob> logger, IProgressBarFactory progressBarFactory, PerformingContext performingContext)
+        public ContinuationJob(ILogger<ContinuationJob> logger, IProgressBarFactory progressBarFactory, PerformingContext performingContext, IJobCancellationToken jobCancellationToken)
         {
             this.logger = logger;
             this.progressBarFactory = progressBarFactory;
             this.performingContext = performingContext;
+            this.jobCancellationToken = jobCancellationToken;
         }
 
         public async Task RunAsync()

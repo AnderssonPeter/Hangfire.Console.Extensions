@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hangfire;
 using Hangfire.Console.Extensions;
 using Hangfire.Server;
 using Microsoft.Extensions.Logging;
@@ -10,17 +11,24 @@ namespace SampleWithSerilog
 {
     public class ContinuationJob
     {
-        private readonly ILogger<SampleJob> logger;
+        private readonly ILogger<ContinuationJob> logger;
         private readonly IProgressBarFactory progressBarFactory;
         private readonly PerformingContext performingContext;
+        private readonly IJobManager jobManager;
+        private readonly IJobCancellationToken jobCancellationToken;
 
-        public ContinuationJob(ILogger<SampleJob> logger, IProgressBarFactory progressBarFactory, PerformingContext performingContext)
+        public ContinuationJob(ILogger<ContinuationJob> logger, IJobCancellationToken jobCancellationToken, IProgressBarFactory progressBarFactory, PerformingContext performingContext, IJobManager jobManager)
         {
             this.logger = logger;
             this.progressBarFactory = progressBarFactory;
             this.performingContext = performingContext;
+            this.jobManager = jobManager;
+            this.jobCancellationToken = jobCancellationToken;
         }
 
+        [JobDisplayName("ContinuationJob")]
+        [AutomaticRetry(Attempts = 0)]
+        [DisableConcurrentExecution(timeoutInSeconds: 60 * 60 * 3)]
         public async Task RunAsync()
         {
             logger.LogInformation("JobId: {JobId}", performingContext.BackgroundJob.Id);

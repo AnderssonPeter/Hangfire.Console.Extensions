@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.Console.Extensions", "Hangfire.Console.Extensions\Hangfire.Console.Extensions.csproj", "{77E9315A-FA4B-4495-926E-C56EC199DBAD}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5961D8A5-E812-4224-8011-1847DCF845C7}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -14,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample", "Sample\Sample.csproj", "{075482E2-64A6-4B35-BBB7-12E0662C2C04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWithSerilog", "SampleWithSerilog\SampleWithSerilog.csproj", "{323B612A-BCA9-4386-B3EB-36678C441312}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWithSerilog", "SampleWithSerilog\SampleWithSerilog.csproj", "{323B612A-BCA9-4386-B3EB-36678C441312}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.Console.Extensions.Serilog", "Hangfire.Console.Extensions.Serilog\Hangfire.Console.Extensions.Serilog.csproj", "{B06948BE-D641-447E-8EE4-C08DC97E14DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.Console.Extensions", "Hangfire.Console.Extensions\Hangfire.Console.Extensions.csproj", "{ACEFB44E-BEA9-4001-B189-EF7C32C17321}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.Console.Extensions.Serilog", "Hangfire.Console.Extensions.Serilog\Hangfire.Console.Extensions.Serilog.csproj", "{9FC55424-3A3A-4EAC-A30C-3EED3D346AAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{77E9315A-FA4B-4495-926E-C56EC199DBAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77E9315A-FA4B-4495-926E-C56EC199DBAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77E9315A-FA4B-4495-926E-C56EC199DBAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77E9315A-FA4B-4495-926E-C56EC199DBAD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{075482E2-64A6-4B35-BBB7-12E0662C2C04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{075482E2-64A6-4B35-BBB7-12E0662C2C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{075482E2-64A6-4B35-BBB7-12E0662C2C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,10 +32,14 @@ Global
 		{323B612A-BCA9-4386-B3EB-36678C441312}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{323B612A-BCA9-4386-B3EB-36678C441312}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{323B612A-BCA9-4386-B3EB-36678C441312}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B06948BE-D641-447E-8EE4-C08DC97E14DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B06948BE-D641-447E-8EE4-C08DC97E14DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B06948BE-D641-447E-8EE4-C08DC97E14DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B06948BE-D641-447E-8EE4-C08DC97E14DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACEFB44E-BEA9-4001-B189-EF7C32C17321}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACEFB44E-BEA9-4001-B189-EF7C32C17321}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACEFB44E-BEA9-4001-B189-EF7C32C17321}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACEFB44E-BEA9-4001-B189-EF7C32C17321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC55424-3A3A-4EAC-A30C-3EED3D346AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC55424-3A3A-4EAC-A30C-3EED3D346AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC55424-3A3A-4EAC-A30C-3EED3D346AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC55424-3A3A-4EAC-A30C-3EED3D346AAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

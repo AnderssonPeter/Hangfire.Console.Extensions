@@ -10,11 +10,6 @@ namespace Hangfire.Console.Extensions
     {
         public static IServiceCollection AddHangfireConsoleExtensions(this IServiceCollection services)
         {
-            var loggingProviders = services.Where(x => x.ServiceType == typeof(ILoggerProvider)).ToList();
-            foreach(var loggingProvider in loggingProviders)
-            {
-                System.Console.WriteLine(loggingProvider.ImplementationType);
-            }
             services.AddLogging(x => x.AddConfiguration());
             services.AddSingleton<IPerformingContextAccessor, AsyncLocalLogFilter>();
             services.AddSingleton<ILoggerProvider, HangfireLoggerProvider>();

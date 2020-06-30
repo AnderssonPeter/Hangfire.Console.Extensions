@@ -13,10 +13,14 @@
     <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console</PackageTags>
-    <Version>1.0.2</Version>
-    <PackageReleaseNotes>1.0.2
-* Added support for getting the PerformingContext with the constructor.
-* JobManager will now add a link to the new job.</PackageReleaseNotes>
+    <Version>1.0.3</Version>
+    <PackageReleaseNotes>
+      1.0.3
+      * Fixed issue when using both Hangfire.Console.Extensions and Hangfire.Console.Extensions.Serilog
+      1.0.2
+      * Added support for getting the PerformingContext with the constructor.</PackageReleaseNotes>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
