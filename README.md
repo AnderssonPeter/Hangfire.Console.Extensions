@@ -16,7 +16,7 @@ public void ConfigureServices(IServiceCollection services)
 ```
 
 ## Starting a job
-To start a job you can use the `IJobManager`, it will automaticly check if you are currently inside a job, if that is the case it will mark the started job as a Continuation.
+To start a job you can use the `IJobManager`, it will automatically check if you are currently inside a job, if that is the case it will mark the started job as a Continuation.
 
 ## Log
 Instead of logging using the extension method on `PerformContext` you can now just use the `ILogging` and it will get logged to both normal logging facilities and Hangfire.Console.
