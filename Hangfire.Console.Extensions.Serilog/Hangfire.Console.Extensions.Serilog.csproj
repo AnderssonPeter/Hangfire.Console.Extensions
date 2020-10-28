@@ -9,8 +9,8 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <Description>Makes it easier to use Hangfire.Console with serilog</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions.Serilog</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions.Serilog</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console Serilog</PackageTags>
     <Version>1.0.0</Version>
