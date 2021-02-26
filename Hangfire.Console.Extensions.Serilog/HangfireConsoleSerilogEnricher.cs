@@ -15,9 +15,12 @@ namespace Hangfire.Console.Extensions.Serilog
         /// <inheritdoc />
         public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
         {
+            var context = asyncLocalLogFilter.Get();
+            if (context == null)
+                return;
             // Create property value with PerformContext and put as "PerformContext"
             var prop = new LogEventProperty(
-                "PerformContext", new PerformContextValue { PerformContext = asyncLocalLogFilter.Get() }
+                "PerformContext", new PerformContextValue(null) { PerformContext = context }
             );
             logEvent.AddOrUpdateProperty(prop);
         }
