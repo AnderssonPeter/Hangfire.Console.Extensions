@@ -13,11 +13,12 @@
     <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console Serilog</PackageTags>
-    <Version>1.0.1</Version>
+    <Version>1.0.1.1</Version>
     <PackageReleaseNotes>
-      1.0.1 Fixed two bugs in HangfireConsoleSerilogEnricher.
-      1.0.0 Initial version
-    </PackageReleaseNotes>
+		1.0.1.1 Fixed bug introduced in last release.
+		1.0.1 Fixed two bugs in HangfireConsoleSerilogEnricher.
+		1.0.0 Initial version
+	</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>

@@ -59,10 +59,10 @@ namespace Hangfire.Console.Extensions.Serilog
 
         public void Emit(LogEvent logEvent)
         {
-            if (logEvent.Properties.TryGetValue("PerformContext", out var logEventPerformContext))
+            if (logEvent.Properties.TryGetValue("HangFireJob", out var logEventPerformContext))
             {
                 // Get the object reference from our custom property
-                var performContext = (logEventPerformContext as PerformContextValue)?.PerformContext;
+                var performContext = (logEventPerformContext as PerformingContextStructureValue)?.PerformingContext;
 
                 // And write the line on it
                 performContext?.WriteLine(GetConsoleColor(logEvent.Level), GetLogLevelString(logEvent.Level) + ": " + logEvent.RenderMessage(formatProvider));
