@@ -18,6 +18,8 @@ namespace Hangfire.Console.Extensions
             services.AddSingleton<IJobManager, JobManager>();
             services.AddTransient<IJobCancellationToken>(sp => sp.GetRequiredService<IPerformingContextAccessor>().Get().CancellationToken);
             services.AddTransient<PerformingContext>(sp => sp.GetRequiredService<IPerformingContextAccessor>().Get());
+            GlobalJobFilters.Filters.Add(new HangfireSubscriber());
+
             return services;
         }
     }

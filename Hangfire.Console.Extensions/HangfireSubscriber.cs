@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Hangfire.Common;
+using System;
 using System.Threading;
 using Hangfire.Server;
+using System.Collections.Generic;
 
 namespace Hangfire.Console.Extensions
 {
@@ -9,14 +11,7 @@ namespace Hangfire.Console.Extensions
     /// </summary>
     internal class HangfireSubscriber : IServerFilter
     {
-        private static readonly HangfireSubscriber instance;
         private static readonly AsyncLocal<PerformingContext> localStorage = new AsyncLocal<PerformingContext>();
-
-        static HangfireSubscriber()
-        {
-            instance = new HangfireSubscriber();
-            GlobalJobFilters.Filters.Add(instance);
-        }
 
         public static PerformingContext Value => localStorage.Value;
 
