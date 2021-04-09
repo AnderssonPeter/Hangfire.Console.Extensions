@@ -1,6 +1,8 @@
 ﻿using System;
 using Serilog;
 using Serilog.Configuration;
+using Serilog.Core;
+using Serilog.Events;
 
 namespace Hangfire.Console.Extensions.Serilog
 {
@@ -15,9 +17,11 @@ namespace Hangfire.Console.Extensions.Serilog
 
         public static LoggerConfiguration Hangfire(
                   this LoggerSinkConfiguration loggerConfiguration,
-                  IFormatProvider formatProvider = null)
+                  IFormatProvider formatProvider = null,
+                  LogEventLevel restrictedToMinimumLevel = LogEventLevel.Verbose,
+                  LoggingLevelSwitch levelSwitch = null)
         {
-            return loggerConfiguration.Sink(new HangfireSink(formatProvider));
+            return loggerConfiguration.Sink(new HangfireSink(formatProvider), restrictedToMinimumLevel, levelSwitch);
         }
     }
 }
