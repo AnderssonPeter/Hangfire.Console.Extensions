@@ -13,8 +13,10 @@
     <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console</PackageTags>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <PackageReleaseNotes>
+	  1.0.5
+	  * Upgraded dependencies
 	  1.0.4
 	  * Fixed issue that caused the first job to not log to hangfire console.
 	  1.0.3
