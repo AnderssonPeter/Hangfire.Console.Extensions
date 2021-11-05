@@ -39,7 +39,10 @@ Example:
   "Enrich": [ "WithHangfireContext" ],
   "WriteTo": [
     {
-      "Name": "Hangfire"
+      "Name": "Hangfire",
+      "Args": {
+        "restrictedToMinimumLevel": "Information"
+      }
     }
   ]
 }
