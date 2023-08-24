@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using Hangfire.Console;
 using Hangfire.Logging;
 using Serilog.Core;
@@ -65,7 +66,14 @@ namespace Hangfire.Console.Extensions.Serilog
                 var performContext = (logEventPerformContext as PerformingContextStructureValue)?.PerformingContext;
 
                 // And write the line on it
-                performContext?.WriteLine(GetConsoleColor(logEvent.Level), GetLogLevelString(logEvent.Level) + ": " + logEvent.RenderMessage(formatProvider));
+                if (logEvent.Exception == null)
+                {
+                    performContext?.WriteLine(GetConsoleColor(logEvent.Level), GetLogLevelString(logEvent.Level) + ": " + logEvent.RenderMessage(formatProvider));
+                }
+                else
+                {
+                    performContext?.WriteLine(GetConsoleColor(logEvent.Level), GetLogLevelString(logEvent.Level) + ": " + logEvent.RenderMessage(formatProvider) + Environment.NewLine + logEvent.Exception.ToString());
+                }
             }
         }
     }

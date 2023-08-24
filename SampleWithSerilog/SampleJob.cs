@@ -30,6 +30,15 @@ namespace SampleWithSerilog
             logger.LogError("Test");
             logger.LogCritical("Test");
 
+            try
+            {
+                throw new Exception("I'm Afraid I Can't Do That, Dave");
+            }
+            catch (Exception ex)
+            {
+                logger.LogCritical(ex, "With exception");
+            }
+
             var progress = progressBarFactory.Create("Test");
             for (var i = 0; i < 100; i++)
             {
