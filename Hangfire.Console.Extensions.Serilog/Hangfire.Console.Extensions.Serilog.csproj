@@ -18,7 +18,7 @@
         1.1.0
         * Added IRecurringJobManager.AddOrUpdateManuallyTriggered
         * Added StartAndWaitAsync overload without result
-        * Fixed bug in StartAndWaitAsync
+        * Fixed bug in StartAndWaitAsync (y-weiner found and fixed it)
         1.0.3
         * Include exception in the log output
         1.0.2
