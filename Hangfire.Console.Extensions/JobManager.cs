@@ -48,7 +48,7 @@ namespace Hangfire.Console.Extensions
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var jobDetails = monitoringApi.JobDetails(jobId);
-                string currentState = jobDetails.History[0].StateName;
+                var currentState = jobDetails.History.LastOrDefault()?.StateName;
                 if (!runningStates.Contains(currentState))
                 {
                     if (currentState == SucceededState.StateName)
