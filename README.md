@@ -27,6 +27,9 @@ To create a progress bar you can use `IProgressBarFactory`.
 ## IJobCancellationToken
 Just take the `IJobCancellationToken` as a constructor parameter to get a hold of the cancellation token.
 
+## Schedule jobs
+Contains a extension method for `AddOrUpdateManuallyTriggered` if you have a job that should only be run manually.
+
 # Hangfire.Console.Extensions.Serilog
 [![NuGet version](https://badge.fury.io/nu/Hangfire.Console.Extensions.Serilog.svg)](https://badge.fury.io/nu/Hangfire.Console.Extensions.Serilog)
 
