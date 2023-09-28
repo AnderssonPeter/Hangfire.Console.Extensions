@@ -51,6 +51,11 @@ namespace Sample
                 {
                     await context.Response.WriteAsync("<a href=\"\\hangfire\\\">Dashboard</a>");
                 });
+                endpoints.MapGet("/startAndWait", async context =>
+                {
+                    var jobManager = context.RequestServices.GetRequiredService<IJobManager>();
+                    await jobManager.StartWaitAsync<ContinuationJob>(t => t.RunAsync());
+                });
             });
 
             jobManager.Start<SampleJob>(x => x.RunAsync());

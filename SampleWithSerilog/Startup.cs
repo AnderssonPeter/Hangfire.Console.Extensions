@@ -32,6 +32,7 @@ namespace SampleWithSerilog
 
             services.AddTransient<SampleJob>();
             services.AddTransient<ContinuationJob>();
+            services.AddTransient<ResultJob>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +52,17 @@ namespace SampleWithSerilog
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("<a href=\"\\hangfire\\\">Dashboard</a>");
+                });
+                endpoints.MapGet("/startAndWait", async context =>
+                {
+                    var jobManager = context.RequestServices.GetRequiredService<IJobManager>();
+                    await jobManager.StartWaitAsync<ContinuationJob>(t => t.RunAsync());
+                });
+                endpoints.MapGet("/startAndWaitWithResult", async context =>
+                {
+                    var jobManager = context.RequestServices.GetRequiredService<IJobManager>();
+                    var result = await jobManager.StartWaitAsync<int, ResultJob>(t => t.RunAsync());
+                    await context.Response.WriteAsync("Your lucky number might not be: " + result);
                 });
             });
 

@@ -9,6 +9,7 @@ namespace Hangfire.Console.Extensions
     public interface IJobManager
     {
         Task<TResult> StartWaitAsync<TResult, TJob>([InstantHandle][NotNull] Expression<Func<TJob, Task>> methodCall, CancellationToken cancellationToken = default);
+        Task StartWaitAsync<TJob>([InstantHandle][NotNull] Expression<Func<TJob, Task>> methodCall, CancellationToken cancellationToken = default);
         void Start<TJob>([InstantHandle] [NotNull] Expression<Action<TJob>> methodCall);
     }
 }

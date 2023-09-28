@@ -42,7 +42,43 @@ namespace Hangfire.Console.Extensions
         /// <returns></returns>
         public async Task<TResult> StartWaitAsync<TResult, TJob>([InstantHandle, NotNull] Expression<Func<TJob, Task>> methodCall, CancellationToken cancellationToken = default)
         {
-            //todo find a way to mark this job as a Continuation when using backgroundJobClient.Enqueue
+            //todo: find a way to mark this job as a Continuation when using backgroundJobClient.Enqueue
+            var method = (Expression<Func<TJob, Task>>)(object)methodCall;
+            var jobId = backgroundJobClient.Enqueue(method);
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var jobDetails = monitoringApi.JobDetails(jobId);
+                var currentState = jobDetails.History.LastOrDefault()?.StateName;
+                if (!runningStates.Contains(currentState))
+                {
+                    if (currentState == SucceededState.StateName)
+                    {
+                        return GetResult<TResult>(jobId);
+                    }
+                    else if (currentState == FailedState.StateName)
+                    {
+                        ThrowError(jobId);
+                    }
+                    else
+                        throw new InvalidOperationException($"The job must be in the state '{SucceededState.StateName}' or '{FailedState.StateName}' but is in '{currentState}'");
+
+                }
+                await Task.Delay(100, cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// Starts a new job and waits for its result
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <typeparam name="TJob"></typeparam>
+        /// <param name="methodCall"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task StartWaitAsync<TJob>([InstantHandle, NotNull] Expression<Func<TJob, Task>> methodCall, CancellationToken cancellationToken = default)
+        {
+            //todo: find a way to mark this job as a Continuation when using backgroundJobClient.Enqueue
             var jobId = backgroundJobClient.Enqueue(methodCall);
             while (true)
             {
@@ -52,9 +88,9 @@ namespace Hangfire.Console.Extensions
                 if (!runningStates.Contains(currentState))
                 {
                     if (currentState == SucceededState.StateName)
-                        return GetResult<TResult>(jobId);
+                        return;
                     else if (currentState == FailedState.StateName)
-                        return ThrowError<TResult>(jobId);
+                        ThrowError(jobId);
                     else
                         throw new InvalidOperationException($"The job must be in the state '{SucceededState.StateName}' or '{FailedState.StateName}' but is in '{currentState}'");
 
@@ -93,6 +129,10 @@ namespace Hangfire.Console.Extensions
                 if (job != null)
                 {
                     var result = job.Result;
+                    if (result == null)
+                    {
+                        return default;
+                    }
                     if (result.GetType() == typeof(string))
                     {
                         return JsonConvert.DeserializeObject<TResult>((string)result);
@@ -103,7 +143,7 @@ namespace Hangfire.Console.Extensions
             throw new InvalidOperationException("Failed to find job");
         }
 
-        private TResult ThrowError<TResult>(string jobId)
+        private void ThrowError(string jobId)
         {
             var total = (int)monitoringApi.FailedCount();
 
