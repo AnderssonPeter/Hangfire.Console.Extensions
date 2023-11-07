@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Hangfire.Console.Extensions.IdentityStream</AssemblyName>
     <Company />
     <Authors>Peter Andersson</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
@@ -13,28 +14,16 @@
     <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console</PackageTags>
-    <Version>1.2.0</Version>
+    <Version>1.0.0</Version>
     <PackageReleaseNotes>
-        1.2.0
-        * Upgraded package dependencies
-        1.1.0
-        * Added IRecurringJobManager.AddOrUpdateManuallyTriggered
-        * Added StartAndWaitAsync overload without result
-        * Fixed bug in StartAndWaitAsync (y-weiner found and fixed it)
-        1.0.5
-        * Upgraded dependencies
-        1.0.4
-        * Fixed issue that caused the first job to not log to hangfire console.
-        1.0.3
-        * Fixed issue when using both Hangfire.Console.Extensions and Hangfire.Console.Extensions.Serilog
-        1.0.2
-        * Added support for getting the PerformingContext with the constructor.</PackageReleaseNotes>
+        * Initial release targeting IdentityStream.Hangfire.Console
+    </PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire.Console" Version="1.4.2" />
+    <PackageReference Include="IdentityStream.Hangfire.Console" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="7.0.0" />
   </ItemGroup>

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Hangfire.Console.Extensions.Serilog.IdentityStream</AssemblyName>
     <Company />
     <Authors>Peter Andersson</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
@@ -13,25 +14,9 @@
     <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console Serilog</PackageTags>
-    <Version>1.2.0</Version>
+    <Version>1.0.0</Version>
     <PackageReleaseNotes>
-        1.2.0
-        * Upgraded package dependencies
-        1.1.0
-        * Added IRecurringJobManager.AddOrUpdateManuallyTriggered
-        * Added StartAndWaitAsync overload without result
-        * Fixed bug in StartAndWaitAsync (y-weiner found and fixed it)
-        1.0.3
-        * Include exception in the log output
-        1.0.2
-        * Added restrictedToMinimumLevel
-        * Upgraded dependencies
-        1.0.1.1
-        * Fixed bug introduced in last release.
-        1.0.1
-        * Fixed two bugs in HangfireConsoleSerilogEnricher.
-        1.0.0
-        * Initial release
+        * Initial release targeting IdentityStream.Hangfire.Console
     </PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -45,12 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire.Console" Version="1.4.2" />
+    <PackageReference Include="IdentityStream.Hangfire.Console" Version="2.0.0" />
     <PackageReference Include="Serilog" Version="3.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hangfire.Console.Extensions\Hangfire.Console.Extensions.csproj" />
+    <ProjectReference Include="..\Hangfire.Console.Extensions\Hangfire.Console.Extensions.IdentityStream.csproj" />
   </ItemGroup>
 
 </Project>
