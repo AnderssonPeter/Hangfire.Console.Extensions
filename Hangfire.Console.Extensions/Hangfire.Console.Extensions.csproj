@@ -13,8 +13,10 @@
     <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console</PackageTags>
-    <Version>1.2.0</Version>
+    <Version>2.0.0</Version>
     <PackageReleaseNotes>
+        2.0.0
+        * Breaking change moved from Hangfire.Console to IdentityStream.Hangfire.Console
         1.2.0
         * Upgraded package dependencies
         1.1.0
@@ -34,7 +36,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire.Console" Version="1.4.2" />
+    <PackageReference Include="IdentityStream.Hangfire.Console" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="7.0.0" />
   </ItemGroup>

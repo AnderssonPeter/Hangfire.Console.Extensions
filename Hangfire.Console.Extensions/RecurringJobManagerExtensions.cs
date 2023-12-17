@@ -32,7 +32,7 @@ namespace Hangfire
             }
 
             Job job = Job.FromExpression(methodCall);
-            manager.AddOrUpdate(recurringJobId, job, "0 0 0 31 2 ?");
+            manager.AddOrUpdate(recurringJobId, job, Cron.Never());
         }
     }
 }
