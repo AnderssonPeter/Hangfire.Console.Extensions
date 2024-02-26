@@ -2,6 +2,7 @@
 
 namespace Hangfire.Console.Extensions
 {
+    [ProviderAlias("Hangfire")]
     public class HangfireLoggerProvider : ILoggerProvider
     {
         private readonly IPerformingContextAccessor performingContextAccesor;
