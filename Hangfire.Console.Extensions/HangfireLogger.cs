@@ -19,7 +19,18 @@ namespace Hangfire.Console.Extensions
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return true;
+            switch (logLevel)
+            {
+                case LogLevel.Critical:
+                case LogLevel.Error:
+                case LogLevel.Warning:
+                case LogLevel.Information:
+                case LogLevel.Debug:
+                case LogLevel.Trace:
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         private ConsoleTextColor GetConsoleColor(LogLevel logLevel)
