@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
 using Hangfire.Console.Extensions;
@@ -27,6 +28,27 @@ namespace SampleWithSerilog
         }
 
         [JobDisplayName("ContinuationJob")]
+        [AutomaticRetry(Attempts = 0)]
+        [DisableConcurrentExecution(timeoutInSeconds: 60 * 60 * 3)]
+        public void Run()
+        {
+            logger.LogInformation("JobId: {JobId}", performingContext.BackgroundJob.Id);
+            logger.LogTrace("Test");
+            logger.LogDebug("Test");
+            logger.LogInformation("Test");
+            logger.LogWarning("Test");
+            logger.LogError("Test");
+            logger.LogCritical("Test");
+
+            var progress = progressBarFactory.Create("Test");
+            for (var i = 0; i < 100; i++)
+            {
+                progress.SetValue(i + 1);
+                Thread.Sleep(100);
+            }
+        }
+
+        [JobDisplayName("ContinuationJobAsync")]
         [AutomaticRetry(Attempts = 0)]
         [DisableConcurrentExecution(timeoutInSeconds: 60 * 60 * 3)]
         public async Task RunAsync()

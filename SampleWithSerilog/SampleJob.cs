@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Hangfire;
 using Hangfire.Console.Extensions;
@@ -19,6 +20,35 @@ namespace SampleWithSerilog
             this.logger = logger;
             this.progressBarFactory = progressBarFactory;
             this.jobManager = jobManager;
+        }
+
+        public void Run()
+        {
+            logger.LogTrace("Test");
+            logger.LogDebug("Test");
+            logger.LogInformation("Test");
+            logger.LogWarning("Test");
+            logger.LogError("Test");
+            logger.LogCritical("Test");
+
+            try
+            {
+                throw new Exception("I'm Afraid I Can't Do That, Dave");
+            }
+            catch (Exception ex)
+            {
+                logger.LogCritical(ex, "With exception");
+            }
+
+            var progress = progressBarFactory.Create("Test");
+            for (var i = 0; i < 100; i++)
+            {
+                progress.SetValue(i + 1);
+                Thread.Sleep(100);
+            }
+
+            //Starting a job inside a job will mark it as a Continuation
+            jobManager.Start<ContinuationJob>(x => x.Run());
         }
 
         public async Task RunAsync()

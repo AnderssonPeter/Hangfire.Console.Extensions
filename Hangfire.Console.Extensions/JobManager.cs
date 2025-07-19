@@ -42,9 +42,15 @@ namespace Hangfire.Console.Extensions
         /// <returns></returns>
         public async Task<TResult> StartWaitAsync<TResult, TJob>([InstantHandle, NotNull] Expression<Func<TJob, Task>> methodCall, CancellationToken cancellationToken = default)
         {
-            //todo: find a way to mark this job as a Continuation when using backgroundJobClient.Enqueue
+            var state = RetrieveContinuationJobState();
             var method = (Expression<Func<TJob, Task>>)(object)methodCall;
-            var jobId = backgroundJobClient.Enqueue(method);
+            var jobId = backgroundJobClient.Create(method, state);
+
+            if (state is AwaitingState)
+            {
+                backgroundJobClient.Requeue(jobId);
+            }
+
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -71,15 +77,20 @@ namespace Hangfire.Console.Extensions
         /// <summary>
         /// Starts a new job and waits for its result
         /// </summary>
-        /// <typeparam name="TResult"></typeparam>
         /// <typeparam name="TJob"></typeparam>
         /// <param name="methodCall"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task StartWaitAsync<TJob>([InstantHandle, NotNull] Expression<Func<TJob, Task>> methodCall, CancellationToken cancellationToken = default)
         {
-            //todo: find a way to mark this job as a Continuation when using backgroundJobClient.Enqueue
-            var jobId = backgroundJobClient.Enqueue(methodCall);
+            var state = RetrieveContinuationJobState();
+            var jobId = backgroundJobClient.Create(methodCall, state);
+
+            if (state is AwaitingState)
+            {
+                backgroundJobClient.Requeue(jobId);
+            }
+
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -88,9 +99,13 @@ namespace Hangfire.Console.Extensions
                 if (!runningStates.Contains(currentState))
                 {
                     if (currentState == SucceededState.StateName)
+                    {
                         return;
+                    }
                     else if (currentState == FailedState.StateName)
+                    {
                         ThrowError(jobId);
+                    }
                     else
                         throw new InvalidOperationException($"The job must be in the state '{SucceededState.StateName}' or '{FailedState.StateName}' but is in '{currentState}'");
 
@@ -102,17 +117,55 @@ namespace Hangfire.Console.Extensions
         /// <summary>
         /// Starts a new job if we are running inside a job, it marks it as a child.
         /// </summary>
-        public string Start<TJob>([InstantHandle] [NotNull] Expression<Action<TJob>> methodCall)
+        /// <param name="methodCall">The method call expression to be executed as a job.</param>
+        /// <param name="options">Options to configure a continuation.</param>
+        /// <returns>The identifier of the created job.</returns>
+        public string Start<TJob>([InstantHandle][NotNull] Expression<Action<TJob>> methodCall, 
+            JobContinuationOptions options = JobContinuationOptions.OnAnyFinishedState)
+        {
+            IState state = RetrieveContinuationJobState(options);
+
+            return backgroundJobClient.Create(methodCall, state);
+        }
+
+        /// <summary>
+        /// Starts a new job if we are running inside a job, it marks it as a child.
+        /// </summary>
+        /// <param name="methodCall">The method call expression to be executed as a job.</param>
+        /// <param name="options">Options to configure a continuation.</param>
+        /// <returns>The identifier of the created job.</returns>
+        public string Start<TJob>([InstantHandle, NotNull] Expression<Func<TJob, Task>> methodCall,
+            JobContinuationOptions options = JobContinuationOptions.OnAnyFinishedState)
+        {
+            IState state = RetrieveContinuationJobState(options);
+
+            return backgroundJobClient.Create(methodCall, state);
+        }
+
+        /// <summary>
+        /// If there is a job context, it will return an <see cref="AwaitingState"/> with current job ID as parent,
+        /// otherwise it will return an <see cref="EnqueuedState"/>.
+        /// </summary>
+        /// <param name="queue">The queue name to which a background job identifier will be added.</param>
+        /// <param name="options">Options to configure a continuation.</param>
+        /// <param name="expiration">The expiration time for the continuation.</param>
+        /// <returns>The state to be used in the job creation.</returns>
+        public IState RetrieveContinuationJobState(
+            JobContinuationOptions options = JobContinuationOptions.OnAnyFinishedState,
+            string queue = "default",
+            TimeSpan? expiration = null)
         {
             var context = performingContextAccessor.Get();
+            IState enqueuedState = new EnqueuedState(queue);
+
             if (context != null)
             {
-                return backgroundJobClient.ContinueJobWith(context.BackgroundJob.Id, methodCall);
+                return expiration.HasValue
+                    ? new AwaitingState(context.BackgroundJob.Id, enqueuedState, options, expiration.Value)
+                    : new AwaitingState(context.BackgroundJob.Id, enqueuedState, options);
             }
-            else
-            {
-                return backgroundJobClient.Enqueue(methodCall);
-            }
+
+            return enqueuedState;
         }
 
         private TResult GetResult<TResult>(string jobId)

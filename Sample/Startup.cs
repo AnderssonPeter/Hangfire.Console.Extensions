@@ -56,8 +56,15 @@ namespace Sample
                     var jobManager = context.RequestServices.GetRequiredService<IJobManager>();
                     await jobManager.StartWaitAsync<ContinuationJob>(t => t.RunAsync());
                 });
+                endpoints.MapGet("/startAndWaitWithResult", async context =>
+                {
+                    var jobManager = context.RequestServices.GetRequiredService<IJobManager>();
+                    var result = await jobManager.StartWaitAsync<int, ContinuationJob>(t => t.RunWithReturnAsync());
+                    await context.Response.WriteAsync("Your lucky number might not be: " + result);
+                });
             });
 
+            jobManager.Start<SampleJob>(x => x.Run());
             jobManager.Start<SampleJob>(x => x.RunAsync());
         }
     }
