@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/AnderssonPeter/Hangfire.Console.Extensions</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
     <PackageTags>Hangfire Hangfire.Console</PackageTags>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <PackageReleaseNotes>https://github.com/AnderssonPeter/Hangfire.Console.Extensions/releases</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
