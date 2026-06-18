@@ -72,7 +72,7 @@ namespace Hangfire.Console.Extensions
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var jobDetails = monitoringApi.JobDetails(jobId);
-                var currentState = jobDetails.History.LastOrDefault()?.StateName;
+                var currentState = jobDetails.History.OrderBy(h => h.CreatedAt).LastOrDefault()?.StateName;
                 if (!runningStates.Contains(currentState))
                 {
                     if (currentState == SucceededState.StateName)
@@ -104,7 +104,7 @@ namespace Hangfire.Console.Extensions
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var jobDetails = monitoringApi.JobDetails(jobId);
-                var currentState = jobDetails.History.LastOrDefault()?.StateName;
+                var currentState = jobDetails.History.OrderBy(h => h.CreatedAt).LastOrDefault()?.StateName;
                 if (!runningStates.Contains(currentState))
                 {
                     if (currentState == SucceededState.StateName)
