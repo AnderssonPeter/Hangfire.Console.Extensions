@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Hangfire;
 using Hangfire.Console.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -78,6 +75,13 @@ namespace SampleWithSerilog
 
             //Starting a job inside a job will mark it as a Continuation
             jobManager.Start<ContinuationJob>(x => x.RunAsync());
+        }
+
+        public async Task RunChildJobWithFailureAndRetryAsync(CancellationToken cancellationToken)
+        {
+            logger.LogInformation("Starting job");
+            await jobManager.StartWaitAsync<ContinuationJob>(x => x.RetryAndFailAsync(), cancellationToken);
+            logger.LogInformation("Job done");
         }
     }
 }

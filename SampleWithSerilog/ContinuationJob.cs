@@ -112,5 +112,13 @@ namespace SampleWithSerilog
 
             return new Random().Next(10, 10000);
         }
+
+        [JobDisplayName("RetryAndFailAsync")]
+        [AutomaticRetry(Attempts = 1)]
+        [DisableConcurrentExecution(timeoutInSeconds: 60 * 60 * 3)]
+        public async Task RetryAndFailAsync()
+        {
+            throw new Exception("Failure");
+        }
     }
 }

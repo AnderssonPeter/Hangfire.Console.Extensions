@@ -1,3 +1,4 @@
+using System.Threading;
 using Hangfire;
 using Hangfire.Console;
 using Hangfire.Console.Extensions;
@@ -89,6 +90,7 @@ namespace SampleWithSerilog
 
             jobManager.Start<SampleJob>(x => x.Run());
             jobManager.Start<SampleJob>(x => x.RunAsync());
+            jobManager.Start<SampleJob>(x => x.RunChildJobWithFailureAndRetryAsync(CancellationToken.None));
             recurringJobManager.AddOrUpdate<ContinuationJob>("test", job => job.RunAsync(), "0 0 * ? * *");
             recurringJobManager.AddOrUpdateManuallyTriggered<ResultJob>(job => job.RunAsync());
         }

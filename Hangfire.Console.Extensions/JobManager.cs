@@ -27,6 +27,7 @@ namespace Hangfire.Console.Extensions
         }
 
         private readonly string[] runningStates = new[] { AwaitingState.StateName, EnqueuedState.StateName, ProcessingState.StateName };
+        private readonly string[] preRunningStates = new[] { EnqueuedState.StateName, ScheduledState.StateName };
 
         /// <inheritdoc />
         public Task<TResult> StartWaitAsync<TResult, TJob>([InstantHandle, NotNull] Expression<Action<TJob>> methodCall, CancellationToken cancellationToken = default)
@@ -67,13 +68,25 @@ namespace Hangfire.Console.Extensions
             {
                 backgroundJobClient.Requeue(jobId);
             }
-
+            var lastState = ScheduledState.StateName;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var jobDetails = monitoringApi.JobDetails(jobId);
                 var currentState = jobDetails.History.OrderBy(h => h.CreatedAt).LastOrDefault()?.StateName;
-                if (!runningStates.Contains(currentState))
+                if (currentState != lastState)
+                {
+                    logger.LogDebug("Job changed state from {LastState} to {CurrentState}", lastState, currentState);
+                }
+
+                if (preRunningStates.Contains(currentState))
+                {
+                    if (!preRunningStates.Contains(lastState))
+                    {
+                        logger.LogDebug("Job was requeued, the job most likely has failed and has retries configured");
+                    }
+                }
+                else if (!runningStates.Contains(currentState))
                 {
                     if (currentState == SucceededState.StateName)
                     {
@@ -89,6 +102,7 @@ namespace Hangfire.Console.Extensions
                     }
 
                 }
+                lastState = currentState;
                 await Task.Delay(100, cancellationToken);
             }
         }
@@ -100,12 +114,25 @@ namespace Hangfire.Console.Extensions
                 backgroundJobClient.Requeue(jobId);
             }
 
+            var lastState = ScheduledState.StateName;
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 var jobDetails = monitoringApi.JobDetails(jobId);
                 var currentState = jobDetails.History.OrderBy(h => h.CreatedAt).LastOrDefault()?.StateName;
-                if (!runningStates.Contains(currentState))
+                if (currentState != lastState)
+                {
+                    logger.LogDebug("Job changed state from {LastState} to {CurrentState}", lastState, currentState);
+                }
+
+                if (preRunningStates.Contains(currentState))
+                {
+                    if (!preRunningStates.Contains(lastState))
+                    {
+                        logger.LogDebug("Job was requeued, the job most likely has failed and has retries configured");
+                    }
+                }
+                else if (!runningStates.Contains(currentState))
                 {
                     if (currentState == SucceededState.StateName)
                     {
@@ -119,8 +146,8 @@ namespace Hangfire.Console.Extensions
                     {
                         throw new InvalidOperationException($"The job must be in the state '{SucceededState.StateName}' or '{FailedState.StateName}' but is in '{currentState}'");
                     }
-
                 }
+                lastState = currentState;
                 await Task.Delay(100, cancellationToken);
             }
         }
