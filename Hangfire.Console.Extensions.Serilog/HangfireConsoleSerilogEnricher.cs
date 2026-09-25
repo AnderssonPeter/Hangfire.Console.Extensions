@@ -6,6 +6,11 @@ namespace Hangfire.Console.Extensions.Serilog
 {
     class HangfireConsoleSerilogEnricher : ILogEventEnricher
     {
+        /// <summary>
+        /// The name of the property that will be added to the log event. This property will contain the PerformContext object.
+        /// </summary>
+        public static string EnricherName = "HangFireJob";
+
         private readonly AsyncLocalLogFilter asyncLocalLogFilter = new AsyncLocalLogFilter();
 
         public HangfireConsoleSerilogEnricher()
@@ -19,7 +24,7 @@ namespace Hangfire.Console.Extensions.Serilog
             if (context == null)
                 return;
             // Create property value with PerformContext and put as "PerformContext"
-            var property = new LogEventProperty("HangFireJob", new PerformingContextStructureValue(context));
+            var property = new LogEventProperty(EnricherName, new PerformingContextStructureValue(context));
             logEvent.AddOrUpdateProperty(property);
         }
     }

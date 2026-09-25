@@ -60,7 +60,7 @@ namespace Hangfire.Console.Extensions.Serilog
 
         public void Emit(LogEvent logEvent)
         {
-            if (logEvent.Properties.TryGetValue("HangFireJob", out var logEventPerformContext))
+            if (logEvent.Properties.TryGetValue(HangfireConsoleSerilogEnricher.EnricherName, out var logEventPerformContext))
             {
                 // Get the object reference from our custom property
                 var performContext = (logEventPerformContext as PerformingContextStructureValue)?.PerformingContext;
